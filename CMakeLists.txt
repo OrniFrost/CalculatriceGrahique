@@ -14,7 +14,7 @@ find_package(Qt5 COMPONENTS
         Charts
         REQUIRED)
 
-add_executable(CalculatriceGrahique main.cpp)
+add_executable(CalculatriceGrahique main.cpp Parser/Numerics.cpp Parser/EquationSolver.cpp Parser/EquationSolver.h)
 target_link_libraries(CalculatriceGrahique
         Qt5::Core
         Qt5::Gui

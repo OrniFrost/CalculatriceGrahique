@@ -8,41 +8,29 @@
 #include <QValueAxis>
 #include <QLineEdit>
 #include <QLabel>
+#include "Parser/Numerics.cpp"
+#include "Parser/EquationSolver.h"
+
 
 QT_CHARTS_USE_NAMESPACE
+
+int calculeExpression(string expression, int x)
+{
+    try{
+        string strX = std::to_string(x);
+        expression = expression.replace(expression.find("x"), 1, strX);
+        string strResult = EquationHelper::EquationSolver::solve(expression, 50);
+        return std::stoi(strResult);
+    }catch(...){
+        cout << "Invalid expression! Please try again!" << endl;
+    }
+
+}
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
-    // Création de la série de données pour la courbe
-    QtCharts::QSplineSeries *series = new QtCharts::QSplineSeries();
-    series->append(0, 6);
-    series->append(2, 4);
-    series->append(3, 8);
-    series->append(7, 4);
-    series->append(10, 5);
-
-    // Création du graphique et ajout de la série de données
-    QtCharts::QChart *chart = new QtCharts::QChart();
-    chart->addSeries(series);
-    chart->createDefaultAxes();
-
-    QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
-    if (axisX)
-        axisX->setRange(0, series->count()*2);
-
-    QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axisY());
-    if (axisY)
-        axisY->setRange(0, 10);
-
-    // Création de la vue pour le graphique
-    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    QLegend *legend = chart->legend();
-    legend->setVisible(false);
-
+    string fontion = "(x+2)/3";
     /*
     // Création des boutons pour ajouter/supprimer des points
     QPushButton *addButton = new QPushButton("Ajouter un point");
@@ -80,11 +68,6 @@ int main(int argc, char *argv[])
     lineEditMax->setText("20");
     lineEditMax->setMaximumWidth(100);
 
-
-
-
-
-
     // Création du layout pour les boutons
     QVBoxLayout *buttonLayout = new QVBoxLayout();
     //buttonLayout->addWidget(addButton);
@@ -96,6 +79,38 @@ int main(int argc, char *argv[])
     buttonLayout->addWidget(labelMax);
     buttonLayout->addWidget(lineEditMax);
     buttonLayout->addStretch();
+
+
+    cout << calculeExpression("(x+2)/3",1) << endl;
+
+    // Création de la série de données pour la courbe
+    QtCharts::QSplineSeries *series = new QtCharts::QSplineSeries();
+    series->append(0, 6);
+    series->append(2, 4);
+    series->append(3, 8);
+    series->append(7, 4);
+    series->append(10, 5);
+
+    // Création du graphique et ajout de la série de données
+    QtCharts::QChart *chart = new QtCharts::QChart();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+
+    QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
+    if (axisX)
+        axisX->setRange(0, series->count()*2);
+
+    QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axisY());
+    if (axisY)
+        axisY->setRange(0, 10);
+
+    // Création de la vue pour le graphique
+    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QLegend *legend = chart->legend();
+    legend->setVisible(false);
+
 
     // Création du layout principal pour la fenêtre
     QHBoxLayout *mainLayout = new QHBoxLayout();
