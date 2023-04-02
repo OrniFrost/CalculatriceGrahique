@@ -26,6 +26,10 @@ int calculeExpression(string expression, int x)
     }
 
 }
+
+int minX = 0;
+int maxX = 20;
+
 int minY = 1000;
 int maxY = -1000;
 std::array<int,2> calculerSerie(QSplineSeries * series, int minX, int maxX, string fonction)
@@ -50,8 +54,6 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     string fontion = "(x+2)/3";
-    int minX = -10;
-    int maxX = 50;
     /*
     // Création des boutons pour ajouter/supprimer des points
     QPushButton *addButton = new QPushButton("Ajouter un point");
@@ -149,6 +151,32 @@ int main(int argc, char *argv[])
 
     QObject::connect(lineEditFonction, &QLineEdit::editingFinished, [=]() {
         series->clear();
+        calculerSerie(series, minX, maxX, lineEditFonction->text().toStdString());
+        QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
+        if (axisX)
+            axisX->setRange(minX, maxX);
+
+        QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axisY());
+        if (axisY)
+            axisY->setRange(minY, maxY);
+    });
+
+    QObject::connect(lineEditMin, &QLineEdit::editingFinished, [=]() {
+        series->clear();
+        minX = lineEditMin->text().toInt();
+        calculerSerie(series, minX, maxX, lineEditFonction->text().toStdString());
+        QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
+        if (axisX)
+            axisX->setRange(minX, maxX);
+
+        QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axisY());
+        if (axisY)
+            axisY->setRange(minY, maxY);
+    });
+
+    QObject::connect(lineEditMax, &QLineEdit::editingFinished, [=]() {
+        series->clear();
+        maxX = lineEditMax->text().toInt();
         calculerSerie(series, minX, maxX, lineEditFonction->text().toStdString());
         QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
         if (axisX)

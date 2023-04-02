@@ -140,7 +140,7 @@ string ES::parse(const string& param){
 
 	vector<string> totalNumbers;
 	vector<char> totalOperations;
-	cout << finalExpression << endl;
+	//cout << finalExpression << endl;
 
 	for(size_t i = 0; i < finalExpression.length(); i++){
 		if(finalExpression[i] >= '0' && finalExpression[i] <= '9'
@@ -238,7 +238,7 @@ string ES::solve(const string& eq, int prec){
 	if(isSolvable(eq)){
 
 		stringstream ss (stringstream::in | stringstream::out);
-		cout << eq << endl;
+		//cout << eq << endl;
 		string value;
 
 		value += '(';
