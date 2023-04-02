@@ -26,8 +26,9 @@ int calculeExpression(string expression, int x)
     }
 
 }
-
-void calculerSerie(QSplineSeries * series, int minX, int maxX, string fonction, int &minY, int &maxY)
+int minY = 1000;
+int maxY = -1000;
+std::array<int,2> calculerSerie(QSplineSeries * series, int minX, int maxX, string fonction)
 {
     for(int i = minX; i < maxX; i++)
     {
@@ -42,6 +43,7 @@ void calculerSerie(QSplineSeries * series, int minX, int maxX, string fonction, 
             maxY = res;
         }
     }
+    return {minY, maxY};
 }
 
 int main(int argc, char *argv[])
@@ -50,8 +52,6 @@ int main(int argc, char *argv[])
     string fontion = "(x+2)/3";
     int minX = -10;
     int maxX = 50;
-    int minY = 1000;
-    int maxY = -1000;
     /*
     // Création des boutons pour ajouter/supprimer des points
     QPushButton *addButton = new QPushButton("Ajouter un point");
@@ -103,13 +103,9 @@ int main(int argc, char *argv[])
     buttonLayout->addWidget(lineEditMax);
     buttonLayout->addStretch();
 
-
-
-
     // Création de la série de données pour la courbe
     QtCharts::QSplineSeries *series = new QtCharts::QSplineSeries();
-    calculerSerie(series, minX, maxX, fontion, minY, maxY);
-    cout << minY << " " << maxY << endl;
+    calculerSerie(series, minX, maxX, fontion);
 
     QtCharts::QSplineSeries *series2 = new QtCharts::QSplineSeries();
     series2->append(0, 3);
@@ -150,6 +146,18 @@ int main(int argc, char *argv[])
     window->setLayout(mainLayout);
     window->resize(800, 600);
     window->show();
+
+    QObject::connect(lineEditFonction, &QLineEdit::editingFinished, [=]() {
+        series->clear();
+        calculerSerie(series, minX, maxX, lineEditFonction->text().toStdString());
+        QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
+        if (axisX)
+            axisX->setRange(minX, maxX);
+
+        QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axisY());
+        if (axisY)
+            axisY->setRange(minY, maxY);
+    });
 
     return app.exec();
 }
