@@ -8,7 +8,7 @@ Pour éxecuter le programme, il faut être sûr d'avoir cmake d'installer et té
 présent sur mon [GitHub](https://github.com/OrniFrost/CalculatriceGrahique). Ensuite, il faut ouvrir un terminal et se placer dans le dossier du projet.
 Puis exécuter les commandes suivantes:
 ```bash
-   #Si pas déjà installé, pour les grphiques Qt
+   #Si pas déjà installé, pour les graphiques Qt
    sudo apt install libqt5charts5-dev
    
    cd [dossier du projet]
