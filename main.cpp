@@ -6,6 +6,8 @@
 #include <QAbstractButton>
 #include <QPushButton>
 #include <QValueAxis>
+#include <QLineEdit>
+#include <QLabel>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -26,14 +28,6 @@ int main(int argc, char *argv[])
     chart->addSeries(series);
     chart->createDefaultAxes();
 
-    // Création de la vue pour le graphique
-    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    // Création des boutons pour ajouter/supprimer des points
-    QPushButton *addButton = new QPushButton("Ajouter un point");
-    QPushButton *removeButton = new QPushButton("Supprimer le dernier point");
-
     QValueAxis *axisX = qobject_cast<QValueAxis *>(chart->axisX());
     if (axisX)
         axisX->setRange(0, series->count()*2);
@@ -41,6 +35,20 @@ int main(int argc, char *argv[])
     QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axisY());
     if (axisY)
         axisY->setRange(0, 10);
+
+    // Création de la vue pour le graphique
+    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QLegend *legend = chart->legend();
+    legend->setVisible(false);
+
+    /*
+    // Création des boutons pour ajouter/supprimer des points
+    QPushButton *addButton = new QPushButton("Ajouter un point");
+    QPushButton *removeButton = new QPushButton("Supprimer le dernier point");
+
+
 
     // Connexion des signaux des boutons aux slots correspondants
     QObject::connect(addButton, &QPushButton::clicked, [=]() {
@@ -52,14 +60,41 @@ int main(int argc, char *argv[])
     QObject::connect(removeButton, &QPushButton::clicked, [=]() {
         series->remove(series->count() - 1);
     });
+     */
+
+    QLabel *labelFonction = new QLabel();
+    labelFonction->setText("f(x) = ");
+    QLineEdit *lineEditFonction = new QLineEdit();
+    lineEditFonction->setText("x^2");
+    lineEditFonction->setMaximumWidth(200);
+
+    QLabel *labelMin = new QLabel();
+    labelMin->setText("Min x");
+    QLineEdit *lineEditMin = new QLineEdit();
+    lineEditMin->setText("0");
+    lineEditMin->setMaximumWidth(100);
+
+    QLabel *labelMax = new QLabel();
+    labelMax->setText("Max x");
+    QLineEdit *lineEditMax = new QLineEdit();
+    lineEditMax->setText("20");
+    lineEditMax->setMaximumWidth(100);
+
+
 
 
 
 
     // Création du layout pour les boutons
     QVBoxLayout *buttonLayout = new QVBoxLayout();
-    buttonLayout->addWidget(addButton);
-    buttonLayout->addWidget(removeButton);
+    //buttonLayout->addWidget(addButton);
+    //buttonLayout->addWidget(removeButton);
+    buttonLayout->addWidget(labelFonction);
+    buttonLayout->addWidget(lineEditFonction);
+    buttonLayout->addWidget(labelMin);
+    buttonLayout->addWidget(lineEditMin);
+    buttonLayout->addWidget(labelMax);
+    buttonLayout->addWidget(lineEditMax);
     buttonLayout->addStretch();
 
     // Création du layout principal pour la fenêtre
