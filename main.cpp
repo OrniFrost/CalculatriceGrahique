@@ -18,6 +18,9 @@ using namespace std;
 int calculeExpression(string expression, int x)
 {
     try{
+        if(expression == ""){
+            expression ="x";
+        }
         string strX = std::to_string(x);
         int nbX = std::count(expression.begin(), expression.end(), 'x');
         for (int i = 0; i < nbX; ++i) {
